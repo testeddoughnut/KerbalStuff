@@ -1,5 +1,5 @@
-from flask import (Blueprint, render_template, abort, request, redirect, 
-    session, url_for)
+from flask import (Blueprint, render_template, abort, request, redirect,
+                   session, url_for)
 from sqlalchemy import desc
 from KerbalStuff.search import search_mods, search_users
 from KerbalStuff.objects import *
@@ -35,7 +35,8 @@ def version_info(mod, version):
         "ksp_version": version.ksp_version,
         "id": version.id,
         "download_path": url_for('mods.download', mod_id=mod.id,
-            mod_name=mod.name, version=version.friendly_version),
+                                 mod_name=mod.name,
+                                 version=version.friendly_version),
         "changelog": version.changelog
     }
 
@@ -103,7 +104,7 @@ def mod_version(modid, version):
         v = mod.default_version()
     elif version.isdigit():
         v = ModVersion.query.filter(ModVersion.mod == mod,
-            ModVersion.id == int(version)).first()
+                                    ModVersion.id == int(version)).first()
     else:
         abort(400)
     if not v:
@@ -118,7 +119,7 @@ def user(username):
     if not user:
         abort(404)
     if not user.public:
-       abort(401)
+        abort(401)
     mods = Mod.query.filter(Mod.user == user, Mod.published == True).order_by(
         Mod.created)
     info = user_info(user)
